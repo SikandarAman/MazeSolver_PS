@@ -1,61 +1,48 @@
 function sensor_readings = sense_robot(robot_state, maze)
-    % SENSE_ROBOT - Simulate robot's distance sensors
-    % Inputs: robot_state structure, maze matrix
-    % Output: [front_dist, left_dist, right_dist] to nearest walls
+    % SENSE_ROBOT - Binary sensors (1=open, 0=wall)
+    % Returns [front_open, left_open, right_open]
     
     % Get current position and direction
     pos = robot_state.position;
     dir = robot_state.direction;
     [rows, cols] = size(maze);
     
-    % Initialize sensor readings
+    % Initialize sensor readings (1=open, 0=wall)
     sensor_readings = zeros(1, 3);
     
-    % Define direction vectors: [row_change, col_change]
+    % Direction vectors: [row_change, col_change]
     % Order: N, E, S, W
     dir_vectors = [-1, 0;  % North
                     0, 1;  % East
                     1, 0;  % South
                     0, -1]; % West
     
-    % Check front direction
+    % Check front cell
     front_dir = dir;
-    sensor_readings(1) = measure_distance(pos, dir_vectors(front_dir, :), maze);
+    front_pos = pos + dir_vectors(front_dir, :);
+    sensor_readings(1) = is_cell_open(front_pos, maze);
     
-    % Check left direction (rotate counter-clockwise)
+    % Check left cell (rotate counter-clockwise)
     left_dir = mod(dir - 2, 4) + 1;
-    sensor_readings(2) = measure_distance(pos, dir_vectors(left_dir, :), maze);
+    left_pos = pos + dir_vectors(left_dir, :);
+    sensor_readings(2) = is_cell_open(left_pos, maze);
     
-    % Check right direction (rotate clockwise)
+    % Check right cell (rotate clockwise)
     right_dir = mod(dir, 4) + 1;
-    sensor_readings(3) = measure_distance(pos, dir_vectors(right_dir, :), maze);
+    right_pos = pos + dir_vectors(right_dir, :);
+    sensor_readings(3) = is_cell_open(right_pos, maze);
 end
 
-function dist = measure_distance(start_pos, dir_vector, maze)
-    % MEASURE_DISTANCE - Helper function to measure distance to wall
-    % Moves in given direction until hitting a wall or boundary
-    
-    dist = 0;
-    current_pos = start_pos;
+function open = is_cell_open(pos, maze)
+    % IS_CELL_OPEN - Check if a cell is open (path) and within bounds
     [rows, cols] = size(maze);
     
-    while true
-        % Calculate next position
-        next_pos = current_pos + dir_vector;
-        
-        % Check boundaries
-        if next_pos(1) < 1 || next_pos(1) > rows || ...
-           next_pos(2) < 1 || next_pos(2) > cols
-            break;  % Hit boundary (outer wall)
-        end
-        
-        % Check if next cell is a wall
-        if maze(next_pos(1), next_pos(2)) == 0
-            break;  % Hit a wall
-        end
-        
-        % Valid move, increment distance and continue
-        dist = dist + 1;
-        current_pos = next_pos;
+    % Check boundaries
+    if pos(1) < 1 || pos(1) > rows || pos(2) < 1 || pos(2) > cols
+        open = 0;  % Out of bounds = wall
+        return;
     end
+    
+    % Check if cell is a path (1) not wall (0)
+    open = (maze(pos(1), pos(2)) == 1);
 end
