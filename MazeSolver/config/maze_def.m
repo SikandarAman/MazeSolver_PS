@@ -1,10 +1,9 @@
 function [maze, start_pos, goal_pos] = maze_def(level)
-    % MAZE_DEF - Returns predefined good mazes for levels 1-5
-    % Input: level (1-5)
-    % Output: maze (0=wall, 1=path), start_pos [row,col], goal_pos [row,col]
+    % MAZE_DEF - Returns predefined mazes for 5 levels
+    % 0 = wall, 1 = path
     
     switch level
-        case 1  % Level 1: 10x10 easy maze
+        case 1  % Level 1: 10x10
             maze = [0 0 0 0 0 0 0 0 0 0;
                     0 1 1 1 0 1 1 1 1 0;
                     0 1 0 1 0 1 0 0 1 0;
@@ -15,8 +14,8 @@ function [maze, start_pos, goal_pos] = maze_def(level)
                     0 1 1 1 0 1 1 1 1 0;
                     0 1 0 0 0 1 0 0 1 0;
                     0 0 0 0 0 0 0 0 0 0];
-                
-        case 2  % Level 2: 15x15 medium maze
+                    
+        case 2  % Level 2: 15x15
             maze = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
                     0 1 1 1 1 1 0 1 1 1 1 1 0 1 0;
                     0 1 0 0 0 1 0 1 0 0 0 1 0 1 0;
@@ -33,7 +32,7 @@ function [maze, start_pos, goal_pos] = maze_def(level)
                     0 1 1 1 0 1 1 1 1 1 1 1 1 1 0;
                     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
                     
-        case 3  % Level 3: 20x20 hard maze
+        case 3  % Level 3: 20x20
             maze = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
                     0 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 0;
                     0 1 0 1 0 1 0 0 0 1 0 1 0 0 0 1 0 0 1 0;
@@ -55,7 +54,7 @@ function [maze, start_pos, goal_pos] = maze_def(level)
                     0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 0;
                     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
                     
-        case 4  % Level 4: 25x25 very hard maze
+        case 4  % Level 4: 25x25
             maze = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
                     0 1 1 1 1 1 0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0;
                     0 1 0 0 0 1 0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 1 0;
@@ -82,7 +81,7 @@ function [maze, start_pos, goal_pos] = maze_def(level)
                     0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 0;
                     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
                     
-        case 5  % Level 5: 30x30 extreme maze
+        case 5  % Level 5: 30x30
             maze = [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0;
                     0 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 0;
                     0 1 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 1 0;
@@ -121,10 +120,6 @@ function [maze, start_pos, goal_pos] = maze_def(level)
     % Set start and goal positions
     start_pos = [2, 2];
     goal_pos = [size(maze, 1) - 1, size(maze, 2) - 1];
-    
-    % Double-check that start and goal are paths
-    maze(start_pos(1), start_pos(2)) = 1;
-    maze(goal_pos(1), goal_pos(2)) = 1;
 end
 
 

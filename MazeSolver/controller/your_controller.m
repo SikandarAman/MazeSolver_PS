@@ -1,14 +1,14 @@
 function action = your_controller(sensor_data, current_pos, current_dir, maze)
-    % YOUR_CONTROLLER - Simplified for binary sensors
+    % YOUR_CONTROLLER - Template for participant's maze-solving algorithm
     % Inputs:
-    %   sensor_data: [front_open, left_open, right_open] (1=open, 0=wall)
-    %   current_pos: [row, column] current position
-    %   current_dir: current facing direction (1=N, 2=E, 3=S, 4=W)
-    %   maze: complete maze matrix
+    %   sensor_data: [front, left, right] (1=open, 0=wall)
+    %   current_pos: [row, col] current position
+    %   current_dir: current direction (1=N, 2=E, 3=S, 4=W)
+    %   maze: complete maze matrix (for advanced algorithms)
     % Output:
     %   action: 1=move forward, 2=turn left, 3=turn right, 4=stay
     
-    % Extract binary sensor readings
+    % Extract sensor readings
     front_open = sensor_data(1);
     left_open = sensor_data(2);
     right_open = sensor_data(3);
@@ -17,19 +17,19 @@ function action = your_controller(sensor_data, current_pos, current_dir, maze)
     % PARTICIPANTS: IMPLEMENT YOUR ALGORITHM HERE
     % ==============================================
     
-    % EXAMPLE 1: Right-hand wall follower (simplified)
+    % EXAMPLE: Simple wall follower (right-hand rule)
     if front_open == 1
         % Path ahead is clear, move forward
         action = 1;
     elseif right_open == 1
-        % Wall on right, path on right, turn right
+        % Right is clear, turn right
         action = 3;
     elseif left_open == 1
-        % Wall on right and front, path on left, turn left
+        % Left is clear, turn left
         action = 2;
     else
-        % Dead end, turn around (left twice or right twice)
-        action = 2;  % Turn left (will need to turn twice)
+        % Dead end, turn around (turn left twice)
+        action = 2;  % First turn left
     end
     
     % EXAMPLE 2: Random explorer (for testing)
@@ -47,5 +47,16 @@ function action = your_controller(sensor_data, current_pos, current_dir, maze)
     %     action = 2;  % Turn left (dead end)
     % else
     %     action = possible_actions(randi(length(possible_actions)));
+    % end
+    
+    % EXAMPLE 3: Left-hand rule (mirror of right-hand)
+    % if front_open == 1
+    %     action = 1;
+    % elseif left_open == 1
+    %     action = 2;
+    % elseif right_open == 1
+    %     action = 3;
+    % else
+    %     action = 3;  % Turn right to turn around
     % end
 end
