@@ -12,12 +12,20 @@ function action = your_controller(sensor_data, current_pos, current_dir, maze)
     front_open = sensor_data(1);
     left_open = sensor_data(2);
     right_open = sensor_data(3);
+
+    dir_str = {'N','E','S','W'};
+    goal = [size(maze,1)-1, size(maze,2)-1];
     
+    fprintf('Pos:[%d,%d] Dir:%s(%d) | Sensors:F%d L%d R%d | ', ...
+        current_pos(1), current_pos(2), dir_str{current_dir}, current_dir, ...
+        front_open, left_open, right_open);
+    fprintf('Goal:[%d,%d]\n', goal(1), goal(2));
+
     % ==============================================
     % PARTICIPANTS: IMPLEMENT YOUR ALGORITHM HERE
     % ==============================================
     
-    % EXAMPLE: Simple wall follower (right-hand rule)
+    %  EXAMPLE: Simple wall follower (right-hand rule)
     if front_open == 1
         % Path ahead is clear, move forward
         action = 1;
