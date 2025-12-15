@@ -1,13 +1,20 @@
 function action = your_controller(sensor_data, current_pos, current_dir, maze)
-    % YOUR_CONTROLLER - Template for participant's maze-solving algorithm
-    % Inputs:
+
+    % YOUR_CONTROLLER 
+
+  %INPUTS:
     %   sensor_data: [front, left, right] (1=open, 0=wall)
     %   current_pos: [row, col] current position
     %   current_dir: current direction (1=N, 2=E, 3=S, 4=W)
     %   maze: complete maze matrix (for advanced algorithms)
-    % Output:
-    %   action: 1=move forward, 2=turn left, 3=turn right, 4=stay (No other
-    %   action seems to be taken other wise, take two lefts or rights for U-turn)
+
+  % Output:
+    %   action: 1 = move forward,
+    %           2 = turn left, 
+    %           3 = turn right,
+    %           4=stay    
+
+    % Note: U-Turn take 2 lefts or 2 rights
     
     % Extract sensor readings
     front_open = sensor_data(1);
