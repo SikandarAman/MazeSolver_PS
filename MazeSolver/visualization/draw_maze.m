@@ -23,6 +23,7 @@ function draw_maze(maze, start_pos, goal_pos)
     axis equal;
     axis([0 cols 0 rows]);
     grid off;
+    axis off;
     
     % Set background to light gray
     set(gca, 'Color', [0.95 0.95 0.95]);
