@@ -1,6 +1,6 @@
 function [maze, start_pos, goal_pos] = maze_def(level)
     % MAZE_DEF - Returns predefined mazes for 5 levels
-    % 0 = wall, 1 = path
+    % 0 = wall, 1 = path (btw Binary maze, others with line walls became complex)
     
     switch level
         case 1  % Level 1: 10x10
@@ -118,6 +118,8 @@ function [maze, start_pos, goal_pos] = maze_def(level)
     end
     
     % Set start and goal positions
+    % Basically starting at above the first black box 
+    % ending in a similar way to get the longest the alterante vertices
     start_pos = [2, 2];
     goal_pos = [size(maze, 1) - 1, size(maze, 2) - 1];
 end

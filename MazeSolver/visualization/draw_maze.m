@@ -1,9 +1,9 @@
 function draw_maze(maze, start_pos, goal_pos)
-    % DRAW_MAZE - Draw maze with grid lines as walls
+    % DRAW_MAZE - Draw maze with grid lines darkened where required as well
     % Updates existing figure instead of creating new one
-    
+   
     % Get maze dimensions
-    [rows, cols] = size(maze);
+    [rows, cols] = size(maze); %Example: For 10x10 (rows = 10, col = 10)
     
     % Check if figure exists
     fig = findobj('Type', 'Figure', 'Name', 'Maze Solver');
@@ -26,12 +26,8 @@ function draw_maze(maze, start_pos, goal_pos)
     
     % Set background to light gray
     set(gca, 'Color', [0.95 0.95 0.95]);
-    
-    % ============================================
-    % # DRAW ALL CELLS WITH COLORS
-    % # ============================================
-    
-    % Draw each cell
+   
+    % Draw each cell, with colors :)
     for r = 1:rows
         for c = 1:cols
             if maze(r, c) == 0  % Wall cell
@@ -47,11 +43,8 @@ function draw_maze(maze, start_pos, goal_pos)
             end
         end
     end
-    
-    % ============================================
-    % # DRAW GRID LINES (WALLS)
-    % # ============================================
-    
+   
+
     % Draw thin gray grid lines for all cells
     for x = 0:cols
         plot([x x], [0 rows], '-', 'Color', [0.7 0.7 0.7], 'LineWidth', 0.5);
@@ -87,9 +80,7 @@ function draw_maze(maze, start_pos, goal_pos)
     plot([0 0], [0 rows], 'k-', 'LineWidth', 4);      % Left
     plot([cols cols], [0 rows], 'k-', 'LineWidth', 4); % Right
     
-    % ============================================
-    % # MARK START AND GOAL
-    % # ============================================
+  
     
     % Start position (green)
     start_x = start_pos(2) - 0.5;
@@ -113,12 +104,15 @@ function draw_maze(maze, start_pos, goal_pos)
          'HorizontalAlignment', 'center', ...
          'FontWeight', 'bold', 'FontSize', 10);
     
+    
+    % TO BE USED FOR THE CASE OF INVERTING (LIKE SNAKE AND LADDERS)
+    % BUT WHO CARES :))
     % Set Y direction to match matrix indexing
-    set(gca, 'YDir', 'reverse');
-    
+    % set(gca, 'YDir', 'reverse')
+
+
     % Add title with maze info
-    title(sprintf('Maze Solver - Level: %dx%d', rows, cols), 'FontSize', 14);
-    
+    title(sprintf('Maze Solver, Level: %dx%d', rows, cols), 'FontSize', 14);
     hold off;
     drawnow;
 end

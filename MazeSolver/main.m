@@ -1,20 +1,20 @@
-function main()
-    % MAIN - Main simulation runner with single window update
-    
+% Run the code via this file :)
+
+ function main()
     clear all; close all; clc;
-    
-    fprintf('====================================\n');
-    fprintf('   MAZE SOLVER HACKATHON - IIT Ropar\n');
-    fprintf('====================================\n\n');
+   
+    fprintf(' MAZE SOLVER HACKATHON - IIT Ropar\n');
+    fprintf('-----------------------------------\n');
     
     % Add all folders to path
     addpath(genpath(pwd));
     
-    % Get participant name
-    fprintf('Enter participant name: ');
-    participant_name = input('', 's');
+    % Get participant's entry number
+    fprintf('Enter Entry Number: ');
+    participant_entry = input('', 's');
     
-    % Get level
+
+    % Get level (Worked on some eg. matrixes way.. will add alogrithms soon
     fprintf('\nSelect maze level (1-5): ');
     level = input('');
     
@@ -22,16 +22,13 @@ function main()
         error('Level must be between 1 and 5');
     end
     
+
     % Generate maze
     fprintf('\nGenerating maze level %d...\n', level);
     [maze, start_pos, goal_pos] = maze_def(level);
     
-    % Initialize robot (start facing East)
+    % Initializing robot (start facing East), By default sun facing...
     robot = init_robot(start_pos, 2);
-    
-    % ============================================
-    % # SETUP SINGLE WINDOW VISUALIZATION
-    % # ============================================
     
     % Close any existing maze solver windows
     close(findobj('Type', 'Figure', 'Name', 'Maze Solver'));
@@ -53,26 +50,22 @@ function main()
     fprintf('Max actions: %d\n\n', max_actions);
     fprintf('Robot is moving in the SAME WINDOW...\n\n');
     
-    % ============================================
-    % # MAIN SIMULATION LOOP - SINGLE WINDOW UPDATE
-    % # ============================================
-    
+   
+
+    % MAIN SIMULATION LOOP 
     while current_action < max_actions && ~solved && ~crashed
         current_action = current_action + 1;
         
         % Get sensor data
         sensors = sense_robot(robot, maze);
         
-        % Call participant's controller
+        % Call participant's controller, ** THE STUFF TO BE WORKED UPON
         action = your_controller(sensors, robot.position, robot.direction, maze);
         
         % Update robot
         robot = update_robot(robot, action, maze);
-        
-        % ========================================
-        % # UPDATE SAME WINDOW - NO NEW FIGURE
-        % # ========================================
-        
+                
+      
         % Update robot in existing window
         robot = draw_robot(robot, maze);
         
@@ -89,12 +82,11 @@ function main()
         % Check if goal reached
         if isequal(robot.position, goal_pos)
             solved = true;
-            fprintf('\n🎉 CONGRATULATIONS! MAZE SOLVED!\n');
-            robot.score = robot.score + 500;  % Bonus
+            fprintf('\n CONGRATS! MAZE SOLVED!\n');
             
             % Final update with celebration text
             ax = gca;
-            text(size(maze,2)/2, -1, '🎉 MAZE SOLVED! 🎉', ...
+            text(size(maze,2)/2, -1, 'MAZE SOLVED! ', ...
                 'HorizontalAlignment', 'center', ...
                 'FontSize', 16, 'FontWeight', 'bold', ...
                 'Color', [0.2 0.6 0.2], ...
@@ -103,13 +95,13 @@ function main()
         end
         
         % Check for too many collisions
-        if robot.collisions > 20
+        if robot.collisions > 10
             crashed = true;
-            fprintf('\n❌ ROBOT CRASHED - Too many collisions!\n');
+            fprintf('\n ROBOT CRASHED - Too many collisions!\n');
             
             % Add crash indicator
             ax = gca;
-            text(size(maze,2)/2, -1, '❌ ROBOT CRASHED ❌', ...
+            text(size(maze,2)/2, -1, 'ROBOT CRASHED! ', ...
                 'HorizontalAlignment', 'center', ...
                 'FontSize', 16, 'FontWeight', 'bold', ...
                 'Color', [0.8 0.2 0.2], ...
@@ -117,7 +109,7 @@ function main()
             drawnow;
         end
         
-        % Display progress in console (not in figure)
+        % Display progress in terminal (Whole purpose being debugging)
         if mod(current_action, 20) == 0
             fprintf('Action %d: %s at [%d,%d] | Score: %.0f\n', ...
                 current_action, robot.last_action_type, ...
@@ -125,10 +117,7 @@ function main()
         end
     end
     
-    % ============================================
-    % # FINAL RESULTS - SAME WINDOW
-    % # ============================================
-    
+
     % Add final status to existing window
     ax = gca;
     if solved
@@ -149,10 +138,9 @@ function main()
         'BackgroundColor', [1 1 1 0.8]);
     
     % Final results in console
-    fprintf('\n====================================\n');
-    fprintf('           FINAL RESULTS\n');
-    fprintf('====================================\n');
-    fprintf('Participant: %s\n', participant_name);
+    fprintf('\n--------------------------------\n');
+    fprintf('         FINAL RESULTS\n');
+    fprintf('Participant: %s\n', participant_entry);
     fprintf('Level: %d\n', level);
     fprintf('Status: %s\n', status_text);
     fprintf('Total actions: %d\n', current_action);
@@ -163,21 +151,40 @@ function main()
     fprintf('  • Collisions: %d\n', robot.collisions);
     fprintf('Final position: [%d,%d]\n', robot.position(1), robot.position(2));
     fprintf('Final score: %.0f\n', robot.score);
+
+
+    % TEXT FILE EXACT SAME AS CONSOLE
+        txt_file = sprintf('results_%s_level%d.txt', ...
+        strrep(participant_entry, ' ', '_'), level);
     
-    % Efficiency metrics
+    fid = fopen(txt_file, 'w');
+    
+    % Write exactly what was printed to console
+    fprintf(fid, '         FINAL RESULTS:\n');
+    fprintf(fid, 'Participant: %s\n', participant_entry);
+    fprintf(fid, 'Level: %d\n', level);
+    fprintf(fid, 'Status: %s\n', status_text);
+    fprintf(fid, 'Total actions: %d\n', current_action);
+    fprintf(fid, '  • Moves: %d\n', robot.move_count);
+    fprintf(fid, '  • Turns: %d (L:%d, R:%d)\n', ...
+        robot.turn_count, robot.turn_left_count, robot.turn_right_count);
+    fprintf(fid, '  • Stays: %d\n', robot.stay_count);
+    fprintf(fid, '  • Collisions: %d\n', robot.collisions);
+    fprintf(fid, 'Final position: [%d,%d]\n', robot.position(1), robot.position(2));
+    fprintf(fid, 'Final score: %.0f\n', robot.score);
+    
     if robot.turn_count > 0
         move_turn_ratio = robot.move_count / robot.turn_count;
-        fprintf('Move/Turn ratio: %.2f\n', move_turn_ratio);
+        fprintf(fid, 'Move/Turn ratio: %.2f\n', move_turn_ratio);
     end
     
     visited_percent = 100 * size(robot.memory.visited, 1) / sum(maze(:)==1);
-    fprintf('Exploraation: %.1f%% of maze\n', visited_percent);
+    fprintf(fid, 'Exploration: %.1f%% of maze\n', visited_percent);
     
-    % Save results
-    results_file = sprintf('results_%s_level%d.mat', ...
-        strrep(participant_name, ' ', '_'), level);
-    save(results_file, 'robot', 'maze', 'level', 'solved');
-    fprintf('\nResults saved to: %s\n', results_file);
+    fclose(fid);
+    
+    fprintf('\nResults saved to: %s\n', txt_file);
+
     
     % Keep figure open
     fprintf('\nFigure remains open. Close it when done.\n');

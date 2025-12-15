@@ -1,5 +1,5 @@
 function robot_state = draw_robot(robot_state, maze)
-    % DRAW_ROBOT - Draw robot with action-based coloring
+    % DRAW_ROBOT, Draw robot with action-based coloring
     % Updates existing figure instead of creating new one
     
     % Find the main figure
@@ -9,25 +9,25 @@ function robot_state = draw_robot(robot_state, maze)
         draw_maze(maze, [2,2], [size(maze,1)-1, size(maze,2)-1]);
         fig = gcf;
     else
-        figure(fig);  % Make it current
+        figure(fig);  % Make it current (existing one)
     end
     
     % Get maze dimensions
     [rows, cols] = size(maze);
+
+    %get bots position and direction to localize basically
     pos = robot_state.position;
     dir = robot_state.direction;
     
-    % Convert to plot coordinates
-    plot_x = pos(2) - 0.5;
+    % Convert to plot coordinates. Take time to understand this, cool stuff
+    plot_x = pos(2) - 0.5; 
     plot_y = rows - pos(1) + 0.5;
-    
-    % ============================================
-    % # CLEAR PREVIOUS ROBOT GRAPHICS ONLY
-    % # ============================================
-    
+  
+
+    %Took great help from LLM for this but good to understand 
     % We need to clear only robot-related graphics, not the maze
     % Get all children of current axes
-    ax = gca;
+    ax = gca; %get current axes
     children = get(ax, 'Children');
     
     % Delete only robot-related objects (identified by tags or types)
@@ -66,11 +66,11 @@ function robot_state = draw_robot(robot_state, maze)
     end
     
     hold on;
+
+
     
-    % ============================================
-    % # COLOR CODE BASED ON LAST ACTION
-    % # ============================================
-    
+    %Easier stuff coloring for visual appeal
+    % COLOR CODE BASED ON LAST ACTION    
     switch robot_state.last_action_type
         case 'move'
             body_color = [0.2 0.6 1.0];    % Blue
@@ -88,14 +88,12 @@ function robot_state = draw_robot(robot_state, maze)
             body_color = [0.6 0.6 0.6];    % Gray
             action_text = 'STAYED';
         otherwise
-            body_color = [0.2 0.6 1.0];    % Default blue
+            body_color = [0.2 0.6 1.0];    % Default blue (trail looking similar)
             action_text = '';
     end
     
-    % ============================================
-    % # DRAW ROBOT BODY
-    % # ============================================
-    
+ 
+    % DRAW ROBOT BODY
     robot_body = rectangle('Position', ...
         [plot_x-0.4, plot_y-0.4, 0.8, 0.8], ...
         'FaceColor', body_color, ...
@@ -103,11 +101,9 @@ function robot_state = draw_robot(robot_state, maze)
         'LineWidth', 2, ...
         'Curvature', 0.2);
     robot_body.UserData = 'robot_graphics';  % Tag it for deletion
+
     
-    % ============================================
-    % # DRAW DIRECTION INDICATOR
-    % # ============================================
-    
+    % DRAW DIRECTION INDICATOR  
     switch dir
         case 1  % North
             tri_x = [plot_x, plot_x-0.3, plot_x+0.3];
@@ -126,11 +122,9 @@ function robot_state = draw_robot(robot_state, maze)
     robot_front = patch(tri_x, tri_y, 'y', ...
         'EdgeColor', 'k', 'LineWidth', 1, 'FaceAlpha', 0.8);
     robot_front.UserData = 'robot_graphics';  % Tag it
+
     
-    % ============================================
-    % # DRAW PATH TRAIL
-    % # ============================================
-    
+    % DRAW PATH TRAIL    
     if size(robot_state.path, 1) > 1
         % Convert path to plot coordinates
         path_x = robot_state.path(:, 2) - 0.5;
@@ -140,10 +134,9 @@ function robot_state = draw_robot(robot_state, maze)
             'LineWidth', 1.5, 'Color', [0 0 0.7 0.5]);
         robot_trail.UserData = 'robot_graphics';  % Tag it
         
-        % ============================================
-        % # MARK TURNING POINTS (CORRECTED)
-        % # ============================================
+    
         
+        % MARK TURNING POINTS (very visually appealing imo)
         if ~isempty(robot_state.turning_points)
             % Get unique turning points to avoid duplicate markers
             [unique_turns, ~] = unique(robot_state.turning_points, 'rows', 'stable');
@@ -161,7 +154,7 @@ function robot_state = draw_robot(robot_state, maze)
                 
                 turn_marker = plot(turn_x(i), turn_y(i), 'o', ...
                     'MarkerSize', 8, ...
-                    'MarkerFaceColor', [1 0.5 0], ...  % Orange
+                    'MarkerFaceColor', [1 0.5 0], ...  % Orange, Similar to turns :)
                     'MarkerEdgeColor', 'k', ...
                     'LineWidth', 1);
                 turn_marker.UserData = 'robot_graphics';  % Tag it
@@ -179,10 +172,9 @@ function robot_state = draw_robot(robot_state, maze)
             end
         end
     end
-    % ============================================
-    % # DISPLAY STATISTICS
-    % # ============================================
-    
+
+
+    %DISPLAY STATISTICS
     % Convert direction to name
     dir_str = get_direction_name(dir);
     
@@ -213,11 +205,9 @@ function robot_state = draw_robot(robot_state, maze)
         'Margin', 3);
     stats_text.UserData = 'robot_graphics';  % Tag it
     
-    % ============================================
-    % # ACTION INDICATOR TEXT
-    % # ============================================
-    
-    if ~isempty(action_text)
+
+    % ACTION INDICATOR TEXT
+        if ~isempty(action_text)
         action_text_obj = text(plot_x, plot_y+0.6, action_text, ...
             'HorizontalAlignment', 'center', ...
             'VerticalAlignment', 'bottom', ...
@@ -231,16 +221,14 @@ function robot_state = draw_robot(robot_state, maze)
     hold off;
     drawnow;
     
-    % Update graphics handles in robot_state (optional)
+    % Update graphics handles in robot_state
     robot_state.graphics.body = robot_body;
     robot_state.graphics.front = robot_front;
     robot_state.graphics.stats_text = stats_text;
 end
 
-% ============================================
-% # HELPER FUNCTION FOR DIRECTION NAME
-% # ============================================
 
+% HELPER FUNCTION FOR DIRECTION NAME
 function dir_name = get_direction_name(dir_num)
     % GET_DIRECTION_NAME - Convert direction number to name
     switch dir_num
@@ -253,6 +241,6 @@ function dir_name = get_direction_name(dir_num)
         case 4
             dir_name = 'West';
         otherwise
-            dir_name = 'Unknown';
+            dir_name = 'Unknown'; %Shouldn't exist but good to put else case
     end
 end

@@ -1,11 +1,11 @@
 function robot_state = update_robot(robot_state, action, maze)
-    % UPDATE_ROBOT - Update robot state with separate action counting
-    
+
     % Increment total actions
     robot_state.total_actions = robot_state.total_actions + 1;
     robot_state.actions = [robot_state.actions; action];
     
     % Store previous position before any action
+    % The whole purpose of previous was to mark turns with orange dots "/
     previous_position = robot_state.position;
     
     % Direction vectors
@@ -30,7 +30,7 @@ function robot_state = update_robot(robot_state, action, maze)
             else
                 % Invalid move (into wall)
                 robot_state.collisions = robot_state.collisions + 1;
-                robot_state.score = robot_state.score - 5;
+                robot_state.score = robot_state.score - 10; % Bcz whyy
                 robot_state.last_action_type = 'collision';
             end
             
@@ -38,10 +38,10 @@ function robot_state = update_robot(robot_state, action, maze)
             robot_state.turn_count = robot_state.turn_count + 1;
             robot_state.turn_left_count = robot_state.turn_left_count + 1;
             
-            % Update direction (N->W->S->E->N)
+            % Update direction (N->W->S->E->N) [Like a State Machine]
             robot_state.direction = mod(robot_state.direction - 2, 4) + 1;
             
-            % Record turn position
+            % Record turn position "/
             robot_state.turning_points = [robot_state.turning_points; previous_position];
             
             % Update score: -0.5 for turning
@@ -62,6 +62,7 @@ function robot_state = update_robot(robot_state, action, maze)
             robot_state.score = robot_state.score - 0.5;
             robot_state.last_action_type = 'turn_right';
             
+        % In case it comes handy (Will penalize though)
         case 4  % STAY
             robot_state.stay_count = robot_state.stay_count + 1;
             robot_state.score = robot_state.score - 2;
@@ -80,10 +81,9 @@ function robot_state = update_robot(robot_state, action, maze)
     end
 end
 
-% ============================================
-% LOCAL HELPER FUNCTION
-% ============================================
 
+
+% LOCAL HELPER FUNCTION
 function valid = is_valid_move(pos, maze)
     % IS_VALID_MOVE - Check if position is valid and within bounds
     [rows, cols] = size(maze);

@@ -1,5 +1,8 @@
 function sensor_readings = sense_robot(robot_state, maze)
-    % SENSE_ROBOT - Binary sensors (1=open, 0=wall)
+    % SENSE_ROBOT - Binary sensors (1=open, 0=wall), (SIMILAR TO IR)
+    % Initially I thought to put smthn like Ultrasonic but would have got
+    %way too complex
+    
     % Returns [front_open, left_open, right_open]
     
     pos = robot_state.position;
@@ -10,30 +13,31 @@ function sensor_readings = sense_robot(robot_state, maze)
     sensor_readings = zeros(1, 3);
     
     % Direction vectors: [row_change, col_change]
-    % N, E, S, W
+    % N, E, S, W % BASICALLY TRAVERSING IN ROWS AND COLUMNS ACC. TO DIRN
     dir_vectors = [-1, 0;  % North
                     0, 1;  % East
                     1, 0;  % South
                     0, -1]; % West
     
     % Check front cell
+    % Note: is_cell_open just a function to check path, (Defined later)
     front_dir = dir;
     front_pos = pos + dir_vectors(front_dir, :);
     sensor_readings(1) = is_cell_open(front_pos, maze);
     
     % Check left cell
-    left_dir = mod(dir - 2, 4) + 1;  % Rotate CCW
+    left_dir = mod(dir - 2, 4) + 1;  % Rotate Anti Clockwise
     left_pos = pos + dir_vectors(left_dir, :);
     sensor_readings(2) = is_cell_open(left_pos, maze);
     
     % Check right cell
-    right_dir = mod(dir, 4) + 1;  % Rotate CW
+    right_dir = mod(dir, 4) + 1;  % Rotate ClockWise
     right_pos = pos + dir_vectors(right_dir, :);
     sensor_readings(3) = is_cell_open(right_pos, maze);
 end
 
 function open = is_cell_open(pos, maze)
-    % IS_CELL_OPEN - Check if cell is open and within bounds
+    % Check if cell is open and within bounds
     [rows, cols] = size(maze);
     
     % Check boundaries

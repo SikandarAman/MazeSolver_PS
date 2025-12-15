@@ -6,7 +6,8 @@ function action = your_controller(sensor_data, current_pos, current_dir, maze)
     %   current_dir: current direction (1=N, 2=E, 3=S, 4=W)
     %   maze: complete maze matrix (for advanced algorithms)
     % Output:
-    %   action: 1=move forward, 2=turn left, 3=turn right, 4=stay
+    %   action: 1=move forward, 2=turn left, 3=turn right, 4=stay (No other
+    %   action seems to be taken other wise, take two lefts or rights for U-turn)
     
     % Extract sensor readings
     front_open = sensor_data(1);
@@ -21,10 +22,14 @@ function action = your_controller(sensor_data, current_pos, current_dir, maze)
         front_open, left_open, right_open);
     fprintf('Goal:[%d,%d]\n', goal(1), goal(2));
 
+
+
     % ==============================================
     % PARTICIPANTS: IMPLEMENT YOUR ALGORITHM HERE
     % ==============================================
     
+
+
     %  EXAMPLE: Simple wall follower (right-hand rule)
     if front_open == 1
         % Path ahead is clear, move forward
