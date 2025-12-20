@@ -1,4 +1,4 @@
-function robot_state = draw_robot(robot_state, maze)
+function robot_state = draw_robot(robot_state, maze, saved_path)
     % DRAW_ROBOT, Draw robot with action-based coloring
     % Updates existing figure instead of creating new one
     
@@ -224,6 +224,21 @@ function robot_state = draw_robot(robot_state, maze)
         'FontSize', 9, 'FontWeight', 'bold', ...
         'Color', [0.2 0.5 0.2], 'HorizontalAlignment', 'right');
     
+        
+        % VISUALIZE PARTICIPANT'S SAVED PATH (optional) - Dots only
+        if ~isempty(saved_path) && exist('saved_path', 'var')
+            % Convert saved_path to plot coordinates
+            saved_x = saved_path(:, 2) - 0.5;
+            saved_y = rows - saved_path(:, 1) + 0.5;
+            
+            % Plot saved_path as small, subtle red dots (no line)
+            for i = 1:size(saved_path, 1)
+                plot(saved_x(i), saved_y(i), '.', ...
+                    'MarkerSize', 6, ... 
+                    'Color', [0.7 0.0 0 0.4]); % Semi-transparent red
+            end
+        end
+
     % Current action
     action_text_display = sprintf('Last Action: %s', robot_state.last_action_type);
     text(cols - 1, sensor_y - 0.8, action_text_display, ...

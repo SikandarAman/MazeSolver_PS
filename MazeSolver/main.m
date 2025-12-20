@@ -1,6 +1,4 @@
-% Run the code via this file :)
-
- function main()
+function main()
     clear all; close all; clc;
    
     fprintf(' MAZE SOLVER HACKATHON - IIT Ropar\n');
@@ -33,9 +31,13 @@
     % Close any existing maze solver windows
     close(findobj('Type', 'Figure', 'Name', 'Maze Solver'));
     
+    % ADDED: Initialize saved_path for participant to use
+    saved_path = [];
+    
+
     % Create/update single figure
     draw_maze(maze, start_pos, goal_pos);
-    robot = draw_robot(robot, maze);
+    robot = draw_robot(robot, maze, saved_path);
     
     % Simulation parameters
     max_actions = size(maze, 1) * size(maze, 2) * 4;
@@ -43,6 +45,7 @@
     solved = false;
     crashed = false;
     
+
     fprintf('\n=== SIMULATION START ===\n');
     fprintf('Maze: %dx%d cells\n', size(maze,1), size(maze,2));
     fprintf('Start: [%d,%d], Goal: [%d,%d]\n', ...
@@ -60,14 +63,15 @@
         sensors = sense_robot(robot, maze);
         
         % Call participant's controller, ** THE STUFF TO BE WORKED UPON
-        action = your_controller(sensors, robot.position, robot.direction, maze);
+        % MODIFIED: Pass saved_path and get updated version back
+        [action, saved_path] = your_controller(sensors, robot.position, robot.direction, maze, saved_path);
         
         % Update robot
         robot = update_robot(robot, action, maze);
                 
       
         % Update robot in existing window
-        robot = draw_robot(robot, maze);
+        robot = draw_robot(robot, maze, saved_path);
         
         % Pause based on action type
         switch action
@@ -153,6 +157,24 @@
     fprintf('Final score: %.0f\n', robot.score);
 
 
+    % ADDED: Display participant's saved_path
+    fprintf('\n--- PARTICIPANT SAVED PATH ---\n');
+    if ~isempty(saved_path)
+        fprintf('Saved path has %d positions\n', size(saved_path, 1));
+        for i = 1:size(saved_path, 1)
+            fprintf('  [%d, %d]', saved_path(i, 1), saved_path(i, 2));
+            if i == 1
+                fprintf('  (START)');
+            elseif i == size(saved_path, 1) && solved
+                fprintf('  (GOAL)');
+            end
+            fprintf('\n');
+        end
+    else
+        fprintf('No path saved by participant\n');
+    end
+
+
     % TEXT FILE EXACT SAME AS CONSOLE
         txt_file = sprintf('results_%s_level%d.txt', ...
         strrep(participant_entry, ' ', '_'), level);
@@ -173,13 +195,16 @@
     fprintf(fid, 'Final position: [%d,%d]\n', robot.position(1), robot.position(2));
     fprintf(fid, 'Final score: %.0f\n', robot.score);
     
-    if robot.turn_count > 0
-        move_turn_ratio = robot.move_count / robot.turn_count;
-        fprintf(fid, 'Move/Turn ratio: %.2f\n', move_turn_ratio);
+    % ADDED: Save the saved_path to file
+    fprintf(fid, '\n--- PARTICIPANT SAVED PATH ---\n');
+    if ~isempty(saved_path)
+        fprintf(fid, 'Saved path has %d positions\n', size(saved_path, 1));
+        for i = 1:size(saved_path, 1)
+            fprintf(fid, '  [%d, %d]\n', saved_path(i, 1), saved_path(i, 2));
+        end
+    else
+        fprintf(fid, 'No path saved by participant\n');
     end
-    
-    visited_percent = 100 * size(robot.memory.visited, 1) / sum(maze(:)==1);
-    fprintf(fid, 'Exploration: %.1f%% of maze\n', visited_percent);
     
     fclose(fid);
     
