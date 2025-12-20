@@ -23,8 +23,8 @@ function robot_state = update_robot(robot_state, action, maze)
                 robot_state.position = new_pos;
                 robot_state.path = [robot_state.path; new_pos];
                 
-                % Update score: -1 for moving
-                robot_state.score = robot_state.score - 1;
+                % Update score: -2 for moving
+                robot_state.score = robot_state.score - 2;
                 robot_state.last_action_type = 'move';
                 
             else
@@ -44,8 +44,8 @@ function robot_state = update_robot(robot_state, action, maze)
             % Record turn position "/
             robot_state.turning_points = [robot_state.turning_points; previous_position];
             
-            % Update score: -0.5 for turning
-            robot_state.score = robot_state.score - 0.5;
+            % Update score: -1 for turning
+            robot_state.score = robot_state.score - 1;
             robot_state.last_action_type = 'turn_left';
             
         case 3  % TURN RIGHT
@@ -58,14 +58,14 @@ function robot_state = update_robot(robot_state, action, maze)
             % Record turn position
             robot_state.turning_points = [robot_state.turning_points; previous_position];
             
-            % Update score: -0.5 for turning
-            robot_state.score = robot_state.score - 0.5;
+            % Update score: -1 for turning
+            robot_state.score = robot_state.score - 1;
             robot_state.last_action_type = 'turn_right';
             
         % In case it comes handy (Will penalize though)
         case 4  % STAY
             robot_state.stay_count = robot_state.stay_count + 1;
-            robot_state.score = robot_state.score - 2;
+            robot_state.score = robot_state.score - 1;
             robot_state.last_action_type = 'stay';
             
         otherwise
