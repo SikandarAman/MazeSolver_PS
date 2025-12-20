@@ -9,67 +9,50 @@ function robot_state = draw_robot(robot_state, maze)
         draw_maze(maze, [2,2], [size(maze,1)-1, size(maze,2)-1]);
         fig = gcf;
     else
-        figure(fig);  % Make it current (existing one)
+        figure(fig);
     end
     
     % Get maze dimensions
     [rows, cols] = size(maze);
-
-    %get bots position and direction to localize basically
     pos = robot_state.position;
     dir = robot_state.direction;
     
-    % Convert to plot coordinates. Take time to understand this, cool stuff
+    % Convert to plot coordinates
     plot_x = pos(2) - 0.5; 
     plot_y = rows - pos(1) + 0.5;
-  
-
-    %Took great help from LLM for this but good to understand 
-    % We need to clear only robot-related graphics, not the maze
-    % Get all children of current axes
-    ax = gca; %get current axes
-    children = get(ax, 'Children');
     
-    % Delete only robot-related objects (identified by tags or types)
-    % We'll use UserData to tag robot graphics
-    for i = length(children):-1:1
-        obj = children(i);
-        if isprop(obj, 'UserData') && ~isempty(obj.UserData)
-            if strcmp(obj.UserData, 'robot_graphics')
-                delete(obj);
-            end
-        end
+    % Clear ALL text objects in statistics area (above the maze)
+    ax = gca;
+    all_objs = findobj(ax);
+    
+    for i = length(all_objs):-1:1
+        obj = all_objs(i);
         
-        % Also delete by type if no UserData (for backward compatibility)
+        % Check if it's a text object
         if isa(obj, 'matlab.graphics.primitive.Text')
-            % Check if it's statistics text (contains numbers)
-           if isvalid(obj) && ~isempty(obj.String)
-                str = obj.String;
-                if contains(str, 'Pos:') || contains(str, 'Moves:') || ...
-                   contains(str, 'Turns:') || contains(str, 'Score:')
+            if isvalid(obj)
+                % Get text position
+                txt_pos = obj.Position;
+                if length(txt_pos) >= 2 && txt_pos(2) > rows
+                    % Delete any text in statistics area (above maze)
                     delete(obj);
                 end
             end
         end
     end
     
-    % Also delete any remaining trail (lines)
-    lines = findobj(ax, 'Type', 'line');
-    for i = 1:length(lines)
-        if ~isempty(lines(i).Color)
-            % Check if it's a trail line (blue with transparency)
-            if all(lines(i).Color(1:3) == [0 0 0.7]) || ...
-               (length(lines(i).Color) > 3 && lines(i).Color(4) == 0.5)
-                delete(lines(i));
+    % Also clear robot graphics (body, front, trail)
+    for i = length(all_objs):-1:1
+        obj = all_objs(i);
+        if isprop(obj, 'UserData') && ~isempty(obj.UserData)
+            if strcmp(obj.UserData, 'robot_graphics')
+                delete(obj);
             end
         end
     end
     
     hold on;
-
-
     
-    %Easier stuff coloring for visual appeal
     % COLOR CODE BASED ON LAST ACTION    
     switch robot_state.last_action_type
         case 'move'
@@ -88,11 +71,10 @@ function robot_state = draw_robot(robot_state, maze)
             body_color = [0.6 0.6 0.6];    % Gray
             action_text = 'STAYED';
         otherwise
-            body_color = [0.2 0.6 1.0];    % Default blue (trail looking similar)
+            body_color = [0.2 0.6 1.0];    % Default blue
             action_text = '';
     end
     
- 
     % DRAW ROBOT BODY
     robot_body = rectangle('Position', ...
         [plot_x-0.4, plot_y-0.4, 0.8, 0.8], ...
@@ -100,8 +82,7 @@ function robot_state = draw_robot(robot_state, maze)
         'EdgeColor', 'k', ...
         'LineWidth', 2, ...
         'Curvature', 0.2);
-    robot_body.UserData = 'robot_graphics';  % Tag it for deletion
-
+    robot_body.UserData = 'robot_graphics';
     
     % DRAW DIRECTION INDICATOR  
     switch dir
@@ -121,8 +102,7 @@ function robot_state = draw_robot(robot_state, maze)
     
     robot_front = patch(tri_x, tri_y, 'y', ...
         'EdgeColor', 'k', 'LineWidth', 1, 'FaceAlpha', 0.8);
-    robot_front.UserData = 'robot_graphics';  % Tag it
-
+    robot_front.UserData = 'robot_graphics';
     
     % DRAW PATH TRAIL    
     if size(robot_state.path, 1) > 1
@@ -132,13 +112,11 @@ function robot_state = draw_robot(robot_state, maze)
         
         robot_trail = plot(path_x, path_y, 'b-', ...
             'LineWidth', 1.5, 'Color', [0 0 0.7 0.5]);
-        robot_trail.UserData = 'robot_graphics';  % Tag it
+        robot_trail.UserData = 'robot_graphics';
         
-    
-        
-        % MARK TURNING POINTS (very visually appealing imo)
+        % MARK TURNING POINTS
         if ~isempty(robot_state.turning_points)
-            % Get unique turning points to avoid duplicate markers
+            % Get unique turning points
             [unique_turns, ~] = unique(robot_state.turning_points, 'rows', 'stable');
             
             % Convert turning points to plot coordinates
@@ -147,67 +125,34 @@ function robot_state = draw_robot(robot_state, maze)
             
             % Plot each turning point
             for i = 1:size(unique_turns, 1)
-                % Skip if this is the current position (unless we want to mark it)
+                % Skip if this is the current position
                 if isequal(unique_turns(i, :), robot_state.position)
                     continue;
                 end
                 
                 turn_marker = plot(turn_x(i), turn_y(i), 'o', ...
                     'MarkerSize', 8, ...
-                    'MarkerFaceColor', [1 0.5 0], ...  % Orange, Similar to turns :)
+                    'MarkerFaceColor', [1 0.5 0], ...
                     'MarkerEdgeColor', 'k', ...
                     'LineWidth', 1);
-                turn_marker.UserData = 'robot_graphics';  % Tag it
+                turn_marker.UserData = 'robot_graphics';
             end
             
             % If current action was a turn, mark current position too
             if strcmp(robot_state.last_action_type, 'turn_left') || ...
                strcmp(robot_state.last_action_type, 'turn_right')
-                turn_marker = plot(plot_x, plot_y, 's', ...  % Square for current turn
+                turn_marker = plot(plot_x, plot_y, 's', ...
                     'MarkerSize', 10, ...
-                    'MarkerFaceColor', [1 0.8 0], ...  % Bright yellow
+                    'MarkerFaceColor', [1 0.8 0], ...
                     'MarkerEdgeColor', 'r', ...
                     'LineWidth', 2);
-                turn_marker.UserData = 'robot_graphics';  % Tag it
+                turn_marker.UserData = 'robot_graphics';
             end
         end
     end
-
-
-    %DISPLAY STATISTICS
-    % Convert direction to name
-    dir_str = get_direction_name(dir);
     
-    stats_str = sprintf(['ROBOT STATISTICS\n' ...
-                         'Pos: [%d,%d] | Dir: %s\n' ...
-                         'Moves: %d | Turns: %d (L:%d, R:%d)\n' ...
-                         'Stays: %d | Collisions: %d\n' ...
-                         'Actions: %d | Score: %.0f\n' ...
-                         'Visited: %d cells'], ...
-        pos(1), pos(2), ...
-        dir_str, ...
-        robot_state.move_count, ...
-        robot_state.turn_count, ...
-        robot_state.turn_left_count, ...
-        robot_state.turn_right_count, ...
-        robot_state.stay_count, ...
-        robot_state.collisions, ...
-        robot_state.total_actions, ...
-        round(robot_state.score), ...
-        size(robot_state.memory.visited, 1));
-    
-    stats_text = text(0.5, rows+1.5, stats_str, ...
-        'BackgroundColor', 'w', ...
-        'EdgeColor', 'k', ...
-        'FontSize', 9, ...
-        'VerticalAlignment', 'top', ...
-        'HorizontalAlignment', 'left', ...
-        'Margin', 3);
-    stats_text.UserData = 'robot_graphics';  % Tag it
-    
-
-    % ACTION INDICATOR TEXT
-        if ~isempty(action_text)
+    % ACTION INDICATOR TEXT (on maze)
+    if ~isempty(action_text)
         action_text_obj = text(plot_x, plot_y+0.6, action_text, ...
             'HorizontalAlignment', 'center', ...
             'VerticalAlignment', 'bottom', ...
@@ -215,7 +160,87 @@ function robot_state = draw_robot(robot_state, maze)
             'FontSize', 10, ...
             'Color', 'k', ...
             'BackgroundColor', [1 1 1 0.7]);
-        action_text_obj.UserData = 'robot_graphics';  % Tag it
+        action_text_obj.UserData = 'robot_graphics';
+    end
+    
+    % DISPLAY STATISTICS IN SEPARATE AREA (above maze)
+    % Convert direction to name
+    dir_str = get_direction_name(dir);
+    
+    % Calculate statistics values
+    total_path_cells = sum(maze(:) == 1);
+    visited_cells = size(robot_state.memory.visited, 1);
+    visited_percent = 100 * visited_cells / total_path_cells;
+    goal_pos = [size(maze,1)-1, size(maze,2)-1];
+    dist = sum(abs(pos - goal_pos));
+    
+    % Create a formatted statistics display
+    stats_y = rows + 4.5;  % Position above maze
+    
+        % Main title
+        title_text = text(0.5, stats_y, 'ROBOT STATISTICS', ...
+            'FontSize', 11, 'FontWeight', 'bold', ...
+            'Color', 'b', 'HorizontalAlignment', 'left', ...
+            'Interpreter', 'none'); 
+        
+        % Position and direction
+        pos_text = sprintf('Position: [%d, %d] | Direction: %s', ...
+            pos(1), pos(2), dir_str);
+        text(0.5, stats_y - 0.8, pos_text, ...
+            'FontSize', 9, 'HorizontalAlignment', 'left', ...
+            'Interpreter', 'none'); 
+            
+    % Action counts
+    actions_text = sprintf('Moves: %d | Turns: %d (L:%d, R:%d) | Stays: %d', ...
+        robot_state.move_count, ...
+        robot_state.turn_count, ...
+        robot_state.turn_left_count, ...
+        robot_state.turn_right_count, ...
+        robot_state.stay_count);
+    text(0.5, stats_y - 1.6, actions_text, ...
+        'FontSize', 9, 'HorizontalAlignment', 'left');
+    
+    % Performance metrics
+    perf_text = sprintf('Collisions: %d | Actions: %d | Score: %.0f', ...
+        robot_state.collisions, ...
+        robot_state.total_actions, ...
+        round(robot_state.score));
+    text(0.5, stats_y - 2.4, perf_text, ...
+        'FontSize', 9, 'HorizontalAlignment', 'left');
+    
+    % Exploration info
+    explored_text = sprintf('Visited: %d cells (%.1f%% of maze)', ...
+        visited_cells, visited_percent);
+    text(0.5, stats_y - 3.2, explored_text, ...
+        'FontSize', 9, 'HorizontalAlignment', 'left');
+    
+    % Right side statistics
+    sensor_y = rows + 4.5;
+    
+    % Sensor readings
+    sensor_text = sprintf('SENSORS [F L R]: [%d %d %d]', ...
+        robot_state.sensors(1), robot_state.sensors(2), robot_state.sensors(3));
+    text(cols - 1, sensor_y, sensor_text, ...
+        'FontSize', 9, 'FontWeight', 'bold', ...
+        'Color', [0.2 0.5 0.2], 'HorizontalAlignment', 'right');
+    
+    % Current action
+    action_text_display = sprintf('Last Action: %s', robot_state.last_action_type);
+    text(cols - 1, sensor_y - 0.8, action_text_display, ...
+            'FontSize', 9, 'HorizontalAlignment', 'right', ...
+            'Interpreter', 'none'); 
+    
+    % Goal distance
+    dist_text = sprintf('Goal Distance: %d cells', dist);
+    text(cols - 1, sensor_y - 1.6, dist_text, ...
+        'FontSize', 9, 'HorizontalAlignment', 'right');
+    
+    % Turn ratio if applicable
+    if robot_state.turn_count > 0
+        ratio = robot_state.move_count / robot_state.turn_count;
+        ratio_text = sprintf('Move/Turn Ratio: %.2f', ratio);
+        text(cols - 1, sensor_y - 2.4, ratio_text, ...
+            'FontSize', 9, 'HorizontalAlignment', 'right');
     end
     
     hold off;
@@ -224,7 +249,6 @@ function robot_state = draw_robot(robot_state, maze)
     % Update graphics handles in robot_state
     robot_state.graphics.body = robot_body;
     robot_state.graphics.front = robot_front;
-    robot_state.graphics.stats_text = stats_text;
 end
 
 

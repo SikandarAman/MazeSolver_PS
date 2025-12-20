@@ -21,7 +21,7 @@ function draw_maze(maze, start_pos, goal_pos)
     
     hold on;
     axis equal;
-    axis([0 cols 0 rows]);
+    axis([0 cols 0 rows+5]); %to accomodate stats
     grid off;
     axis off;
     
@@ -105,6 +105,8 @@ function draw_maze(maze, start_pos, goal_pos)
          'HorizontalAlignment', 'center', ...
          'FontWeight', 'bold', 'FontSize', 10);
     
+    plot([0 cols], [rows rows], 'k-', 'LineWidth', 1, 'Color', [0.5 0.5 0.5]);
+ 
     
     % TO BE USED FOR THE CASE OF INVERTING (LIKE SNAKE AND LADDERS)
     % BUT WHO CARES :))
