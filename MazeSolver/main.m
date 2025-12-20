@@ -13,11 +13,11 @@ function main()
     
 
     % Get level (Worked on some eg. matrixes way.. will add alogrithms soon
-    fprintf('\nSelect maze level (1-5): ');
+    fprintf('\nSelect maze level (1-5) or 6 for final(randomized): ');
     level = input('');
     
-    if level < 1 || level > 5
-        error('Level must be between 1 and 5');
+    if level < 1 || level > 6
+        error('Level must be between 1 and 6');
     end
     
 

@@ -112,9 +112,13 @@ function [maze, start_pos, goal_pos] = maze_def(level)
                     0 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0;
                     0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0;
                     0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0];
+             
+        case 6  % Level 6: Random 50x50 maze
+            fprintf('Generating random 50x50 maze...\n');
+            maze = generate_random_maze(50, 50);
                     
         otherwise
-            error('Level must be between 1 and 5');
+            error('Level must be between 1 and 6');
     end
     
     % Set start and goal positions
