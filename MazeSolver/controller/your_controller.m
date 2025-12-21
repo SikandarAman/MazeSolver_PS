@@ -22,6 +22,7 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     % PARTICIPANTS: IMPLEMENT YOUR ALGORITHM HERE
     % ==============================================
     
+
     % EXAMPLE: Simple wall follower (right-hand rule)
     if front_open == 1
         % Path ahead is clear, move forward
@@ -45,4 +46,5 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
 
     % IMPORTANT: Don't add every position or array will be too large!
     % Only add key positions that form your shortest path.
+
 end

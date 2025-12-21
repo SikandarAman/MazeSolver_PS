@@ -1,5 +1,11 @@
 function main()
     clear all; close all; clc;
+
+
+    % ADDED: Initialize bot_speed (1.0 = normal speed)
+    % Range = 0.1 to 10
+    bot_speed = 10;    
+
    
     fprintf(' MAZE SOLVER HACKATHON - IIT Ropar\n');
     fprintf('-----------------------------------\n');
@@ -33,7 +39,6 @@ function main()
     
     % ADDED: Initialize saved_path for participant to use
     saved_path = [];
-    
 
     % Create/update single figure
     draw_maze(maze, start_pos, goal_pos);
@@ -73,15 +78,19 @@ function main()
         % Update robot in existing window
         robot = draw_robot(robot, maze, saved_path);
         
-        % Pause based on action type
+        bot_speed = max(0.1, min(bot_speed, 10.0));  % Clamp between 0.1x and 10x speed
+        
+        % Calculate pause duration based on action and bot_speed
         switch action
             case 1  % Move
-                pause(0.2);
+                pause_duration = 0.05 / bot_speed;
             case {2, 3}  % Turn
-                pause(0.15);
+                pause_duration = 0.025 / bot_speed;
             case 4  % Stay
-                pause(0.1);
-        end
+                pause_duration = 0.00375 / bot_speed;
+        end        
+
+        pause(pause_duration);
         
         % Check if goal reached
         if isequal(robot.position, goal_pos)
