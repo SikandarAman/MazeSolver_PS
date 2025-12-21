@@ -129,6 +129,9 @@ function [maze, start_pos, goal_pos] = maze_def(level)
 end
 
 
+
+% Future directions, Ignore rn
+
 % function [maze, start_pos, goal_pos] = maze_def(level, algorithm)
 %     % MAZE_DEF - Improved maze generator with multiple algorithms
 %     % Input: level (1-5), algorithm ('recursive', 'prim', 'kruskal')
@@ -270,7 +273,7 @@ end
 %             frontiers = [frontiers; new_frontiers];
 %         end
 %     end
-% 
+%   
 %     % Add outer walls
 %     maze(1, :) = 0;
 %     maze(end, :) = 0;

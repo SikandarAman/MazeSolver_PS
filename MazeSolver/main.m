@@ -1,10 +1,13 @@
+% RUN THE FILE FROM HERE :)
+% ALSO the bot_speed At 9th line can be changed to simulate fast or slow
+
 function main()
     clear all; close all; clc;
 
 
     % ADDED: Initialize bot_speed (1.0 = normal speed)
     % Range = 0.1 to 10
-    bot_speed = 10;    
+    bot_speed = 1;    
 
    
     fprintf(' MAZE SOLVER HACKATHON - IIT Ropar\n');

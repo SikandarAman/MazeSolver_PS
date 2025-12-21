@@ -1,7 +1,7 @@
 function maze = generate_random_maze(rows, cols)
-    % GENERATE_RANDOM_MAZE - Creates a random maze using Randomized Prim's algorithm
-    % Input: rows, cols - dimensions of maze
-    % Output: maze - binary matrix (0=wall, 1=path)
+    % GENERATE_RANDOM_MAZE, will create a random maze using Randomized Prim's algorithm
+    % Input: rows, cols, dimensions of maze
+    % Output: maze, binary matrix (0=wall, 1=path)
     
     % Initialize with all walls
     maze = zeros(rows, cols);
