@@ -67,7 +67,7 @@ function maze = generate_random_maze(rows, cols)
         
         if ~isempty(neighbors)
             % Pick a random neighbor to connect to
-            neighbor = neighbors(randi(size(neighbors, 1)), :);
+            neighbor = neighbors(randi(size(neighbors, 1)), :); %Trusting on random function to be random :)
             
             % Carve path between current and neighbor
             wall_row = floor((current(1) + neighbor(1)) / 2);
