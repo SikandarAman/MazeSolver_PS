@@ -88,6 +88,7 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     else
         % Dead end! All sides blocked - TURN AROUND
         % We'll turn left twice to face opposite direction
+        
         action = 2;
     end
     
