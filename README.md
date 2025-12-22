@@ -123,7 +123,7 @@ Understanded the commented lines to understand in detail.
 ### Maze Structure:
 - Represented as matrices (0 = wall, 1 = path)
 - Starting position: (2,2)
-- Goal position: Bottom-right corner
+- Goal position: Bottom-right corner ,i.e., at ((Max Row - 1), (Max Column -1)) location
 ![Maze Matrix](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Matrix.png)
 
 ### Scoring Criteria:
@@ -138,7 +138,7 @@ Understanded the commented lines to understand in detail.
   - Shortest path finding achievement (More like the bot is exploring dead ends to, save in array only the main path(fastest) removing the dead end paths)
   - Time to complete
 
-## Saved path should be ideally something like:
+## Saved path should be ideally something like (I have enlarged red dots for visibility of how the array should look at the end)
 ![Result File](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Saved.png)
 
 
@@ -152,7 +152,7 @@ When your simulation completes successfully, a statistics file will be saved aut
 
 ### **Phase 1: The Explorer**
 - Understand the basics
-- Learn how sensors work (simulating real IR/ultrasonic sensors)
+- Learn how sensors work
 - Master basic movement commands (forward, turn, stop)
 - Implement simple decision-making (if-else logic)
 
@@ -167,7 +167,7 @@ When your simulation completes successfully, a statistics file will be saved aut
 - Minimize steps and turns
 - Reduce collisions
 - Find shortest paths
-- *(Think: "If I had to go again, which path should I follow to reach fastest, considering I already did dry runs?")*
+- *(Think: "If I had to go again, which path should I follow to reach fastest, considering I already did the dry run?")*
 
 ### **Phase 4: The Innovator**
 - Create something new and original
