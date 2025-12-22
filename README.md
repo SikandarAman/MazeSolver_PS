@@ -86,7 +86,7 @@ MazeSolver/
 6. **Start the simulation**
    - Enter your entry number and select a level (1-6)
    - Level 1-5 are predefined fixed examples
-   - Levl 6 is the main level (random everytime) for final run
+   - Level 6 is the main level (random everytime) for final runs 
 
 ![Terminal Input](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/TerminalView.png)
 
@@ -96,10 +96,16 @@ The project comes with a basic right-wall follower algorithm implemented by defa
 (Note for level 1 this algorithm works well, the final stats file are saved in .txt file on successful completion)
 
 ![Default Wall Follower](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Bot.png)
+Note in the image above all the stats are very intutive run the example algorithm in the first level.
+1. The triangle shows the bot, where the head shows the front of the bot, and right or left are in POV of Bot.
+2. The blue trace shows where it moved
+3. Orange dots are produced at turns (looks cool visually)
+4. The small red dots in blue line (are the locations stored in saved_path[]), by default it is capturing all the locations
 
 ## ✨ Your Task: The Controller
 
-**Important:** The only file you need to modify is `your_controller.m`. This is where you implement your maze-solving algorithm.
+**Important:** The only file you need to modify is `your_controller.m`. This is where you implement your maze solving algorithm.
+Understanded the commented lines to understand in detail.
 
 ![Your Controller File](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/YourController.png)
 
