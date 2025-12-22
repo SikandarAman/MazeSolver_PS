@@ -37,7 +37,7 @@ Every maze presents unique challenges that teach you:
 2. Select "Download ZIP"
 3. Extract the files locally in any folder of your choice
 
-![Download ZIP](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Download+ZIP+Screenshot)
+![Download ZIP](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/DonwloadZip.png)
 
 **Option B: Clone the GitHub Repository**
 ```bash
