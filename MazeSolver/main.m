@@ -7,7 +7,7 @@ function main()
 
     % ADDED: Initialize bot_speed (1.0 = normal speed)
     % Range = 0.1 to 10
-    bot_speed = 1;    
+    bot_speed = 0.5;    
 
    
     fprintf(' MAZE SOLVER HACKATHON - IIT Ropar\n');
@@ -61,7 +61,11 @@ function main()
     fprintf('Max actions: %d\n\n', max_actions);
     fprintf('Robot is moving in the SAME WINDOW...\n\n');
     
-   
+    
+    % Goal Positions
+    % You can calculate it as:
+    goal_row = size(maze, 1) - 1;  % Last row - 1
+    goal_column = size(maze, 2) - 1;  % Last column - 1
 
     % MAIN SIMULATION LOOP 
     while current_action < max_actions && ~solved && ~crashed
@@ -72,7 +76,7 @@ function main()
         
         % Call participant's controller, ** THE STUFF TO BE WORKED UPON
         % MODIFIED: Pass saved_path and get updated version back
-        [action, saved_path] = your_controller(sensors, robot.position, robot.direction, maze, saved_path);
+        [action, saved_path] = your_controller(sensors, robot.position, robot.direction, goal_row, goal_column, saved_path);
         
         % Update robot
         robot = update_robot(robot, action, maze);

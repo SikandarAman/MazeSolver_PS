@@ -1,4 +1,4 @@
-function [action, saved_path] = your_controller(sensor_data, current_pos, current_dir, maze, saved_path)
+function [action, saved_path] = your_controller(sensor_data, current_pos, current_dir, goal_row, goal_column, saved_path)
     % YOUR_CONTROLLER, This is YOUR maze-solving algorithm!
     % Write your code here to control the robot through the maze.
     
@@ -24,10 +24,12 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     current_row = current_pos(1);  % Get row number
     current_col = current_pos(2);  % Get column number
     
-    % REMEMBER: Goal is always at [maze_rows-1, maze_cols-1]
-    % You can calculate it:
-    goal_row = size(maze, 1) - 1;  % Last row - 1
-    goal_col = size(maze, 2) - 1;  % Last column - 1
+    % REMEMBER: Goal is always at [maze_rows-1, maze_cols-1] 
+    % ALREADY CALULATED DIRECTLY USE
+    goal_row;  % Last row - 1
+    goal_column;  % Last column - 1
+    % Can be used in algorithms (If you are implementing such an algorithm)
+    
 
     % current_dir - Which way the robot is facing:
     % 1 = North (facing UP)
@@ -38,18 +40,25 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     % These variables help convert numbers to direction names:
     dir_names = {'North', 'East', 'South', 'West'};
     current_direction_name = dir_names{current_dir};
-    
+    % May be useful if you are taking references from direction
+
+
 
     % saved_path - The final path tracker
     % You can see this array as small red dots in the simulation path
-    % Start empty: saved_path = []
+    saved_path = []
 
-    % Ex: Add all positions
+    % By default Ex: Add all positions
     % Add positions: saved_path = [saved_path; current_pos] 
     
+    % Saved path should be the final shortest path you can get out of the
+    % explored map by the run from your algorithm, append the main path
+    % locations in the array deleting the dead ends (all while in the
+    % process of finding the coal)
+
 
     % ===================================================
-    % PART 2: DECISION MAKING (What should the robot do?
+    % PART 2: DECISION MAKING (What should the robot do?)
     
     % You need to decide which action to take based on sensors
     
@@ -58,8 +67,6 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     % action = 2  --> TURN LEFT (rotate 90° counter-clockwise)
     % action = 3  --> TURN RIGHT (rotate 90° clockwise)
     % action = 4  --> STAY (don't move - rarely used)
-
-
     
 
 
@@ -110,6 +117,7 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     fprintf('Sensors: Front=%d, Left=%d, Right=%d\n', ...
             front_open, left_open, right_open);
     fprintf('Path saved: %d positions\n\n', size(saved_path, 1));
+    fprintf('Goal Position: %d, %d\n', goal_row, goal_column);
     
     
 end
