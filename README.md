@@ -1,7 +1,7 @@
 # Maze Solver Challenge - IIT Ropar Robotics Club
 
 ## Overview
-Maze solving is the art and science of finding a path from start to finish through complex pathways. It's not just a puzzle—it's a fundamental challenge in robotics, artificial intelligence, and algorithm design that simulates real-world navigation problems.
+Maze solving is the art and science of finding a path from start to finish through complex pathways. It's not just a puzzle, it's a fundamental challenge in robotics, artificial intelligence, and algorithm design that simulates real-world navigation problems.
 
 Maze solving bridges theory with practice in the most engaging way possible. While you learn algorithms in lectures, here you implement them in action!
 
@@ -11,10 +11,9 @@ This project gives you hands-on experience with two critical engineering skills:
 - Numerical computation
 - Algorithm development  
 - Data visualization
-- Engineering simulations
 
 ### 🧠 **Algorithm Design** - Learn by doing:
-- Pathfinding algorithms (DFS, BFS, A*)
+- Pathfinding algorithms (Ex: DFS, BFS, A*)
 - Optimization techniques
 - Real-time decision making
 - Problem-solving strategies
