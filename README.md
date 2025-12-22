@@ -135,8 +135,12 @@ Understanded the commented lines to understand in detail.
   - Random maze solving capabilities (on average performance, will be checked on multiple mazes)
   - Code quality and structure
   - Algorithm creativity and novelty
-  - Shortest path finding achievement, save final locations on array
+  - Shortest path finding achievement (More like the bot is exploring dead ends to, save in array only the main path(fastest) removing the dead end paths)
   - Time to complete
+
+## Saved path should be ideally something like:
+![Result File](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Saved.png)
+
 
 ## 📝 Result Files
 
