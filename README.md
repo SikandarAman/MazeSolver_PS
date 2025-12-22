@@ -1,9 +1,6 @@
 # Maze Solver Challenge - IIT Ropar Robotics Club
 
 ## Overview
-
-Hi! I'm **Aman Mittal**, Secretary at the Robotics Club at IIT Ropar.
-
 Maze solving is the art and science of finding a path from start to finish through complex pathways. It's not just a puzzle—it's a fundamental challenge in robotics, artificial intelligence, and algorithm design that simulates real-world navigation problems.
 
 Maze solving bridges theory with practice in the most engaging way possible. While you learn algorithms in lectures, here you implement them in action!
@@ -39,12 +36,12 @@ Every maze presents unique challenges that teach you:
 
 ![Download ZIP](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/DonwloadZip.png)
 
+
 **Option B: Clone the GitHub Repository**
 ```bash
 git clone https://github.com/[your-username]/MazeSolver.git
 ```
 
-![Clone Repository](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Clone+Repository+Screenshot)
 
 ## 📁 Project Structure
 
@@ -54,7 +51,7 @@ MazeSolver/
 │   ├── generate_random_maze.m
 │   └── maze_def.m
 ├── controller/
-│   └── your_controller.m     <-- YOUR ALGORITHM GOES HERE
+│   └── your_controller.m     <-- YOUR ALGORITHM GOES HERE (your_controller.m)
 ├── robot/
 │   ├── init_robot.m
 │   ├── sense_robot.m
@@ -62,43 +59,42 @@ MazeSolver/
 ├── visualization/
 │   ├── draw_maze.m
 │   └── draw_robot.m
-└── main.m                    <-- RUN SIMULATION FROM HERE
+└── main.m                    <-- RUN SIMULATION FROM HERE (main.m)
 ```
 
 ## 🎯 Quick Start Guide
 
 1. **Open MATLAB**
-   
-![Open MATLAB](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=MATLAB+Interface)
 
 2. **Navigate to the MazeSolver folder**
    - Use the "Current Folder" browser to navigate to your extracted/cloned folder
 
-![Add Folder Location](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Add+Folder+Location)
+![Add Folder Location](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/MatlabLocn.png)
 
 3. **Run the main file**
    - Double-click on `main.m` in the file browser
 
-![Double Click Main](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Main+File+Selection)
+![Double Click Main](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/LocatingMain.png)
 
 4. **Run the simulation**
    - Click the "Run" button or press F5
 
-![Run Code](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Run+Button+Location)
+![Run Code](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Run.png)
 
 5. **Add to Path (First time only)**
    - If prompted, select "Add to Path" to allow MATLAB to access all files
 
-![Add to Path](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Add+to+Path+Prompt)
-
 6. **Start the simulation**
    - Enter your entry number and select a level (1-6)
+   - Level 1-5 are predefined fixed examples
+   - Levl 6 is the main level (random everytime) for final run
 
-![Terminal Input](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Terminal+Input+Screenshot)
+![Terminal Input](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/TerminalView.png)
 
 ## 🤖 Default Algorithm
 
 The project comes with a basic right-wall follower algorithm implemented by default:
+(Note for level 1 this algorithm works well, the final stats file are saved in .txt file on successful completion)
 
 ![Default Wall Follower](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Wall+Follower+Visualization)
 

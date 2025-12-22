@@ -1,5 +1,5 @@
 % RUN THE FILE FROM HERE :)
-% ALSO the bot_speed At 9th line can be changed to simulate fast or slow
+% ALSO the bot_speed At 10th line can be changed to simulate fast or slow
 
 function main()
     clear all; close all; clc;
