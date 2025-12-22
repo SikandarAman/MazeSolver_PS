@@ -99,8 +99,6 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
 
 
 
-
-
     % ===========================================
     % PART 4: DISPLAY INFORMATION (For debugging)
     

@@ -34,7 +34,7 @@ function robot_state = init_robot(start_pos, start_dir)
     robot_state.sensors = [0, 0, 0];   % [front, left, right] or F L R
     
     % Performance metrics
-    robot_state.score = 5000;         % Starting score (score looks fun)
+    robot_state.score = 10000;         % Starting score (score looks fun)
     robot_state.is_active = true;
     
     % Memory for algorithms
