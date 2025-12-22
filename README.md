@@ -96,20 +96,18 @@ MazeSolver/
 The project comes with a basic right-wall follower algorithm implemented by default:
 (Note for level 1 this algorithm works well, the final stats file are saved in .txt file on successful completion)
 
-![Default Wall Follower](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Wall+Follower+Visualization)
+![Default Wall Follower](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Bot.png)
 
 ## ✨ Your Task: The Controller
 
 **Important:** The only file you need to modify is `your_controller.m`. This is where you implement your maze-solving algorithm.
 
-![Your Controller File](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Your+Controller+File)
+![Your Controller File](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/YourController.png)
 
 ### Running Your Simulation:
 1. Always run from `main.m`
 2. Use full screen for better statistics readability
 3. Adjust speed by modifying `bot_speed` in line 10 of main.m (no other changes needed in main)
-
-![Run Simulation](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Simulation+Running)
 
 ## 📊 Maze Levels & Scoring
 
@@ -117,27 +115,29 @@ The project comes with a basic right-wall follower algorithm implemented by defa
 - **Levels 1-5**: Predefined example mazes for practice
 - **Level 6**: Random maze generator (main challenge level)
 
-![Maze Levels](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Maze+Levels+Showcase)
-
 ### Maze Structure:
 - Represented as matrices (0 = wall, 1 = path)
 - Starting position: (2,2)
 - Goal position: Bottom-right corner
+![Maze Matrix](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Matrix.png)
 
 ### Scoring Criteria:
-- **Reference Score**: Fun scoring system included
+- *your_controller code is expected for submission, as well as screenshots as you progress and justifications for methods used*
+- *TRY BEST 2-3 ALGORITHMS FOR SUBMISSIONS, stating the pros and cons among them.*
+
+- **Reference Score**: Scoring system inbuilt, just for reference for the participant themselves
 - **Main Evaluation** (for competition):
-  - Random maze solving capabilities (average performance)
+  - Random maze solving capabilities (on average performance, will be checked on multiple mazes)
   - Code quality and structure
   - Algorithm creativity and novelty
-  - Shortest path achievement
+  - Shortest path finding achievement, save final locations on array
   - Time to complete
 
 ## 📝 Result Files
 
 When your simulation completes successfully, a statistics file will be saved automatically. Save this file along with your code for submission.
 
-![Result File](https://via.placeholder.com/600x400/007ACC/FFFFFF?text=Result+File+Example)
+![Result File](https://github.com/SikandarAman/MazeSolver_PS/blob/main/Images/Results.png)
 
 ## 🎓 Learning Phases
 
@@ -180,16 +180,13 @@ The robot has three binary sensors (1=open, 0=wall):
 - **3**: Turn right
 - **4**: Stay (penalized in scoring)
 
-### Scoring System:
-- Starting score: 1000 points
-- Move forward: -1 point
-- Turn: -0.5 points
-- Collision: -15 points
-- Stay: -3 points
-- Exploration bonus: -0.5 points for new cells
+## Special Note
+1. Every participant is requested to go through all the files and understand the coding part, will be helpful for your intution for designing the controller
+2. There can be minor updates still required in repo, in case you feel some improvements contact us
+3. Use LLM's for your benefit, though plagiarism will be strictly checked, but support can be taken from LLM's in case of difficulty of putting your thoughts to code
+4. This is special, Consider you instead of bot, and you are solving a maze what will you be doing, from the given information.
 
 ## 🤝 Contributing
-
 Feel free to fork this repository, experiment with different algorithms, and submit pull requests with improvements!
 
 ## 📞 Support
@@ -197,7 +194,8 @@ Feel free to fork this repository, experiment with different algorithms, and sub
 For questions or issues, please:
 1. Check the code comments in each file
 2. Review the example algorithms provided
-3. Contact the Robotics Club, IIT Ropar
+3. Contact the Robotics Club, IIT Ropar robotics@iitrpr.ac.in
+   or          Aman Mittal, 2023eeb1182@iitrpr.ac.in
 
 ---
 
