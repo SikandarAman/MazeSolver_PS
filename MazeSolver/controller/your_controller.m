@@ -46,7 +46,7 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
 
     % saved_path - The final path tracker
     % You can see this array as small red dots in the simulation path
-    saved_path = []
+    % saved_path = [], defined in Main
 
     % By default Ex: Add all positions
     % Add positions: saved_path = [saved_path; current_pos] 
@@ -101,7 +101,7 @@ function [action, saved_path] = your_controller(sensor_data, current_pos, curren
     
     saved_path = [saved_path; current_pos];    
 
-    % Simple tracking: Save every position you visit
+    % Simple tracking: Saving every position trace you visit
 
     %--------------------------------------------------------------
 
